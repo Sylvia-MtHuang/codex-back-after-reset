@@ -1,6 +1,6 @@
-# Back After Reset
+# Codex Back After Reset
 
-**五小时后，又是一条好汉。**
+**五小时重置后，又是一条好汉。**
 
 A Codex desktop skill that arranges continuation at **90% of five-hour quota used**, keeps working until completion or actual exhaustion, and returns to the same chat after quota becomes available.
 
