@@ -6,7 +6,11 @@ Use only after the user requests scheduled messages to try to start a five-hour 
 
 Use native chat-attached heartbeat scheduling, discovering the current schema before mutations. Inspect existing automations to avoid duplicates. Keep starter ownership separate from task-recovery ownership: retain purpose, chat id, timezone, time and confirmed automation id in a private workspace note or this chat, outside the distributed skill. Do not create a set in every unfinished chat; chats share account quota. A daily starter does not authorize resuming other chats.
 
-Preserve the user's chosen times and timezone. The buffered example is:
+Use the user's chosen daily times: one time or any set of times, not a fixed four-slot timetable. If no times are supplied or established by the user, ask for them before scheduling. Preserve exact requested times; add or accumulate a buffer only when requested.
+
+Default to the user's local timezone. Read the Codex host's system timezone and verify that it represents the user's local time; confirm the resolved timezone with the saved schedule. If user context and host timezone disagree, or local time cannot be established, clarify which zone to use. An explicitly requested timezone takes precedence. Installing this skill does not choose times or enable schedules.
+
+An optional buffered example is:
 
 | Local time | Offset from nominal slot |
 |---|---|
@@ -15,9 +19,9 @@ Preserve the user's chosen times and timezone. The buffered example is:
 | 15:04 | 4 minutes |
 | 20:06 | 6 minutes |
 
-These adjacent daytime slots are five hours and two minutes apart. Use Europe/Zurich only when chosen or established by the user's context; others may choose different times or zones. Use local wall-clock scheduling through daylight-saving changes. Confirm the scheduler's effective timezone through supported metadata or its documented use of the host's verified local timezone. Writing a timezone in the prompt alone does not configure the scheduler. If the scheduler cannot honor the chosen zone, report the mismatch before creating an incorrect schedule; do not alter the system timezone.
+These adjacent daytime slots are five hours and two minutes apart; they are examples, not defaults. Use local wall-clock scheduling through daylight-saving changes. Confirm the scheduler's effective timezone through supported metadata or its documented use of the host's verified local timezone. Writing a timezone in the prompt alone does not configure the scheduler. If the scheduler cannot honor the chosen zone, report the mismatch before creating an incorrect schedule; do not alter the system timezone.
 
-Use four daily heartbeats for these four hour/minute pairs unless the scheduler explicitly supports an exact multi-time set. A recurrence listing all four hours and all four minutes creates a cross product, not four paired times. Confirm each successful creation/update and the saved schedule; report partial success precisely. Reconcile ambiguous results before retrying, with at most one retry after confirmed failure. Never overwrite an unrelated greeting or recovery automation.
+Use one daily heartbeat per selected hour/minute pair unless the scheduler explicitly supports an exact multi-time set. For example, 08:30 and 19:45 require two schedules; the buffered table requires four. A recurrence listing multiple hours and multiple minutes creates a cross product, not paired times. Confirm each successful creation/update and the saved schedule; report partial success precisely. Reconcile ambiguous results before retrying, with at most one retry after confirmed failure. Never overwrite an unrelated greeting or recovery automation.
 
 ## On each starter wake
 

@@ -39,6 +39,10 @@ The host uses W. Europe Standard Time, compatible with Swiss local time. Read-on
 
 Source and installed skill format checks passed. The ZIP distribution contains the updated skill and its references. Schedule configuration is a smoke test of creation and read-back, not proof of model execution or quota-window initiation.
 
+### Local-time defaults and custom times
+
+A subsequent independent baseline identified clarity gaps, with no observed failure: the former reference accepted custom times but did not explicitly define the user's local timezone as the default. The revised reference and bilingual README were evaluated against five simulated cases: two times in Asia/Shanghai, missing times, one time in America/New_York, an explicit Asia/Tokyo request on an unsupported Zurich host, and exact times without a requested buffer. All five preserved the requested times and handled timezone/default uncertainty correctly. These were read-only simulations; existing live schedules were not changed.
+
 ## Not verified
 
 - No live task-recovery heartbeat was created, rescheduled or disabled during the original recovery checks. The daily starter creation check above is separate; pause, cancellation and rescheduling were simulated only.
