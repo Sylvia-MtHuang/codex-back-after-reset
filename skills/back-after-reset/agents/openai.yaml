@@ -1,0 +1,6 @@
+interface:
+  display_name: "Back After Reset"
+  short_description: "Keep working, then resume after Codex quota resets"
+  default_prompt: "Use $back-after-reset to arrange quota-reset continuation for my unfinished task, keep working after 90% used, and resume in this chat when quota is available."
+policy:
+  allow_implicit_invocation: true
