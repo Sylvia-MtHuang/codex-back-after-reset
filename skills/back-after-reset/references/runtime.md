@@ -8,7 +8,9 @@ The quota tool is read-only. Prefer `rateLimitsByLimitId` where applicable and d
 
 Use the actual availability flags and relevant blocking limits. A five-hour reset is insufficient when a known weekly, model-specific, or spend limit also blocks work. For several known time-reset blockers, target the latest reset plus 120 seconds. Unknown or non-time-reset blockers require reporting the blocker, not fabricating a future recovery time. Do not spend credits or redeem vouchers automatically.
 
-## Heartbeat lifecycle
+## Recovery heartbeat lifecycle
+
+This section applies to task recovery. Separately requested daily starter messages use [scheduled-start.md](scheduled-start.md); completing a work task does not stop those persistent schedules.
 
 Use an automation attached to the original chat so its context is retained. Create through the supported tool, never by editing internal automation storage or emitting handwritten automation directives. Where the current schema supports them, select `kind: heartbeat`, a thread destination, and the target chat. Do not invent update/delete/status fields; inspect current documentation for each mutation. Preserve existing fields unless changing this skill's schedule or prompt requires otherwise.
 

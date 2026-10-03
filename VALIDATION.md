@@ -29,10 +29,21 @@ The evaluator found coherent safe handling for all twelve; restricted scheduling
 
 The review also led to a numerical minimum of 60 minutes for an unanchored recurring fallback, and explicit redaction/exclusion of private checkpoint records before workspace publication. A focused follow-up evaluation passed both the restricted-interval and signed-URL/publication scenarios. Publication checks inspect the actual included files, whether staged changes or archive contents.
 
+## Daily starter extension
+
+The pre-change independent evaluation identified missing guidance for persistent starter ownership and paired daily times. It chose four schedules and safe behavior; no baseline failure was invented. The updated package was independently evaluated against eight simulated cases: the four approved times, ordinary task completion, a later actual reset, installation alone, ambiguous partial creation, pausing starters, mismatched host timezone, and unrelated existing greetings. No behavioral contradiction was found; exact timezone support and ownership evidence remain runtime requirements.
+
+A live configuration check then created four native chat-attached daily starter heartbeats at 05:00, 10:02, 15:04 and 20:06. Each creation returned a confirmed automation id and ACTIVE status. Read-back of the saved automation records confirmed the four exact paired daily schedules, ACTIVE heartbeat status and the same original-chat target. Unrelated automations were preserved. Private ownership records remain outside this public repository.
+
+The host uses W. Europe Standard Time, compatible with Swiss local time. Read-only inspection of this installed desktop build's scheduler schema confirmed that native local daily rules encode the user's local wall-clock hours/minutes directly, without UTC conversion. A timezone typed in a prompt alone is not scheduling evidence. Actual timed execution, behavior after host timezone changes and daylight-saving transitions were not observed.
+
+Source and installed skill format checks passed. The ZIP distribution contains the updated skill and its references. Schedule configuration is a smoke test of creation and read-back, not proof of model execution or quota-window initiation.
+
 ## Not verified
 
-- No live heartbeat was created, rescheduled or disabled during these checks.
+- No live task-recovery heartbeat was created, rescheduled or disabled during the original recovery checks. The daily starter creation check above is separate; pause, cancellation and rescheduling were simulated only.
 - No real account quota was intentionally exhausted.
 - No real post-reset recovery, sleep catch-up behavior or cross-chat locking was tested.
+- No daily starter was observed executing at its scheduled time, and no message was shown to start a new quota window.
 
 This is a validated instruction package, not an independently running watchdog. Installation and scenario evaluation do not establish an end-to-end guarantee of quota recovery on every desktop environment.
