@@ -1,10 +1,16 @@
 # Codex Back After Reset
 
-**五小时重置后，又是一条好汉。 / After the five-hour quota resets, back on your feet.**
+**Resume unfinished Codex desktop tasks after quota resets. / Codex 桌面版额度重置后，在原聊天自动续跑未完成任务。**
 
-A Codex desktop skill that arranges continuation at **90% of five-hour quota used**, keeps working until completion or actual exhaustion, and returns to the same chat after quota becomes available. It uses native Codex quota and chat-scheduling tools, with no API key or third-party service required.
+Back After Reset is a **Codex desktop skill for quota-reset task continuation**. It checks quota usage, saves a checkpoint, and schedules a return to the same chat after quota becomes available. At **90% of five-hour quota used**, it arranges recovery and keeps working until completion or actual exhaustion. It uses native Codex quota and chat-scheduling tools, with no API key or third-party service required.
 
-这是一个给 Codex 桌面版使用的续跑 skill：**90% 安排续跑，安排后继续干，额度恢复后接着干。** 它使用 Codex 内置额度查询和原聊天定时任务，不需要 API key 或第三方服务。
+这是一个给 **Codex 桌面版使用的额度重置后自动续跑 skill**：检查额度、保存进度，并安排在额度恢复后回到原聊天继续未完成任务。**90% 安排续跑，安排后继续干，额度恢复后接着干。** 它使用 Codex 内置额度查询和原聊天定时任务，不需要 API key 或第三方服务。
+
+**Requires native quota-reading and same-chat scheduling tools. It cannot force a quota reset. / 需要内置额度查询和原聊天定时工具；不能强制重置额度。**
+
+[Install / 安装](#install--安装) · [Use / 使用](#use--使用) · [FAQ / 常见问题](#faq--常见问题)
+
+*五小时重置后，又是一条好汉。 / After the five-hour quota resets, back on your feet.*
 
 ## Install / 安装
 
@@ -21,6 +27,14 @@ Alternatively, download this repository and copy the entire `skills/back-after-r
 不同版本的个人技能路径可能不同：当前 Codex 文档列出 `~/.agents/skills/`；内置 skill-installer 可能安装到 `$CODEX_HOME/skills/`（通常为 `~/.codex/skills/`）。优先使用你的 Codex 内置安装器并确认技能列表里出现 **Back After Reset**。新安装的技能可在后续轮次使用；未出现时重新打开聊天或重启应用。
 
 Personal skill locations can vary by version: current Codex documentation lists `~/.agents/skills/`, while the built-in skill-installer may use `$CODEX_HOME/skills/` (usually `~/.codex/skills/`). Prefer your built-in installer and confirm that **Back After Reset** appears in the skill list. Newly installed skills are available on subsequent turns; reopen the chat or restart the app if the skill does not appear.
+
+## How quota-reset continuation works / 额度重置后如何续跑
+
+1. **Authorize the task / 授权任务：** Use `$back-after-reset` in the chat containing your unfinished task. / 在未完成任务所在的聊天中使用 `$back-after-reset`。
+2. **Prepare recovery / 安排恢复：** Codex checks quota, saves progress, and arranges a recovery wake; at 90% used it confirms or updates that wake and keeps working. / Codex 检查额度、保存进度并安排续跑唤醒；已用达到 90% 时确认或更新安排，随后继续工作。
+3. **Resume in the same chat / 原聊天续跑：** When the wake runs, Codex checks actual quota availability and your latest instructions before continuing the next unfinished step. / 唤醒执行时，Codex 先检查实际可用额度和你的最新指令，再继续下一项未完成步骤。
+
+If quota is still blocked, the skill reassesses the next available reset. Finished, paused, cancelled, or waiting-for-input tasks do not resume. / 若额度仍受限，skill 会重新判断下一次可恢复时间；已完成、暂停、取消或等待你输入的任务不会续跑。
 
 ## Use / 使用
 
@@ -134,6 +148,32 @@ The computer and app must remain running, and the workspace must be accessible. 
 “重置后 2 分钟”是调度目标，不是精确执行保证。若当前版本只支持无法定位首次触发时间的周期 heartbeat，默认使用至少 60 分钟的支持周期作为兜底，恢复可能延后；提示词的时间检查也不能消除唤醒本身消耗的额度。账号额度由多个聊天共享，需避免重复执行和同时修改同一工作目录。
 
 “Two minutes after reset” is a scheduling target, not an exact execution guarantee. If only recurring heartbeats with an unverified first-fire time are available, the default fallback uses a supported interval of at least 60 minutes, so recovery may be delayed. Time checks in the prompt do not eliminate quota consumed by the wake itself. Chats share account quota, so avoid duplicate execution and concurrent writes to the same workspace.
+
+## FAQ / 常见问题
+
+### How can I resume a Codex task after a quota reset? / Codex 额度重置后怎么继续任务？
+
+Install this skill and send the request in [Use / 使用](#use--使用) in the chat containing the task. With native quota and scheduling tools available, Codex can save progress and arrange automatic continuation in that same chat after quota becomes available. The computer and app must remain running; exact execution time is not guaranteed.
+
+安装本 skill，在任务所在聊天发送[使用示例](#use--使用)中的请求。具备内置额度查询和定时工具时，Codex 可以保存进度，并安排在额度恢复后回到原聊天自动继续。电脑和应用需要保持运行；不能保证精确执行时间。
+
+### Does this skill reset Codex limits or increase quota? / 这个 skill 能重置或增加 Codex 额度吗？
+
+No. It uses the reset time reported by Codex and coordinates task continuation. It does not increase quota, bypass limits, buy credits, redeem reset vouchers, or switch models. Optional daily starter messages cannot force a reset or guarantee a new quota window.
+
+不能。它使用 Codex 返回的重置时间来协调续跑，不会增加额度、绕过限制、购买额度、兑换重置券或切换模型。可选的每日定时开工消息也不能强制重置或保证启动新额度窗口。
+
+### Does automatic continuation work in Codex CLI or an IDE? / Codex CLI 或 IDE 能自动续跑吗？
+
+This skill targets Codex desktop. CLI or IDE environments can read the instructions and save checkpoints, but automatic continuation requires native quota-reading and same-chat scheduling tools. See [Compatibility and limits / 兼容性与限制](#compatibility-and-limits--兼容性与限制) and [VALIDATION.md](VALIDATION.md) for dependencies and verification limits.
+
+本 skill 主要面向 Codex 桌面版。CLI 或 IDE 可以读取指令并保存进度，但自动续跑需要内置额度查询和原聊天定时工具。依赖条件与验证范围见[兼容性与限制](#compatibility-and-limits--兼容性与限制)和 [VALIDATION.md](VALIDATION.md)。
+
+### How do I stop automatic task resumption? / 如何停止自动续跑？
+
+Say “pause automatic continuation” or “cancel this task” in the task's chat. Codex should disable that chat's recovery wake. Separately authorized daily starter schedules remain until you ask to pause or cancel them.
+
+在任务聊天中说“暂停自动续跑”或“取消这个任务”，Codex 应停用该聊天的续跑唤醒。另行授权的每日定时开工安排会保留，直到你要求暂停或取消。
 
 ## Files / 文件
 
