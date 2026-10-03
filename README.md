@@ -11,7 +11,7 @@ A Codex desktop skill that arranges continuation at **90% of five-hour quota use
 在 Codex 中发送：
 
 ```text
-$skill-installer Install the skill from https://github.com/Sylvia-MtHuang/back-after-reset/tree/main/skills/back-after-reset
+$skill-installer Install the skill from https://github.com/Sylvia-MtHuang/codex-back-after-reset/tree/main/skills/back-after-reset
 ```
 
 或者下载本仓库，将 `skills/back-after-reset` 整个文件夹放入 Codex 的个人技能目录，保留其中的 `SKILL.md`、`agents` 和 `references`。
